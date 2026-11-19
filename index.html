@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ava's Cleaning</title>
+<meta name="description" content="Ava's Cleaning — reliable home and office cleaning in the Sacramento area. Free estimates. Se habla español.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1f7a74;
+    --teal-dark: #155955;
+    --teal-soft: #e3f1ef;
+    --cream: #fbf8f3;
+    --peach: #f4a261;
+    --ink: #1d2a2a;
+    --muted: #5b6b6a;
+    --line: #e4e0d8;
+    --white: #ffffff;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Nunito Sans", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; margin: 0 0 .5em; }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(251, 248, 243, .92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 68px; }
+  .logo { display: flex; align-items: center; gap: 8px; font-family: "Fraunces", serif; font-weight: 700; font-size: 1.35rem; text-decoration: none; color: var(--teal-dark); white-space: nowrap; }
+  .logo svg { flex: none; }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .lang {
+    display: inline-flex; border: 1.5px solid var(--teal); border-radius: 999px; overflow: hidden;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--teal-dark); font: inherit; font-weight: 700; font-size: .85rem;
+    padding: 6px 12px; cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--teal); color: var(--white); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 24px; border-radius: 999px; font-weight: 700; text-decoration: none;
+    border: 2px solid transparent; cursor: pointer; font: inherit; font-weight: 700;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--teal); color: var(--white); }
+  .btn-primary:hover { background: var(--teal-dark); }
+  .btn-ghost { border-color: var(--teal); color: var(--teal-dark); background: transparent; }
+  .btn-sm { padding: 8px 14px; font-size: .9rem; }
+
+  /* Hero */
+  .hero { padding: 64px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fde8d6; color: #8a4a12; font-weight: 700; font-size: .9rem;
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--teal-dark); }
+  .hero p.lead { font-size: 1.2rem; color: var(--muted); max-width: 34em; margin: 0 0 28px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-phone { margin-top: 18px; color: var(--muted); }
+  .hero-phone a { font-weight: 700; color: var(--teal-dark); }
+  .hero-card {
+    background: var(--teal); color: var(--white); border-radius: 28px; padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .hero-card::after {
+    content: ""; position: absolute; right: -60px; top: -60px; width: 200px; height: 200px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .hero-card h3 { font-size: 1.4rem; }
+  .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .checks li { display: flex; gap: 10px; align-items: flex-start; }
+  .checks li::before {
+    content: "✓"; flex: none; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--peach); color: var(--ink); font-weight: 700; font-size: .85rem;
+    display: grid; place-items: center; margin-top: 2px;
+  }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 40px; }
+  .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal-dark); }
+  .section-head p { color: var(--muted); margin: 0; }
+
+  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .service {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
+  }
+  .service .icon {
+    width: 48px; height: 48px; border-radius: 14px; background: var(--teal-soft);
+    display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 14px;
+  }
+  .service h3 { font-size: 1.15rem; margin-bottom: .3em; }
+  .service p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+  .about { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 48px; align-items: center; }
+  .about-photo {
+    aspect-ratio: 1; border-radius: 28px; background: var(--teal-soft);
+    display: grid; place-items: center; color: var(--teal); text-align: center; padding: 20px;
+    font-family: "Fraunces", serif; font-size: 5rem;
+  }
+  .about h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal-dark); }
+  .about p { color: var(--muted); }
+
+  /* Estimate form */
+  .estimate-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: start; }
+  .estimate-info h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--teal-dark); }
+  .estimate-info p { color: var(--muted); }
+  .big-phone {
+    display: block; margin-top: 20px; padding: 20px; border-radius: var(--radius);
+    background: var(--teal-soft); text-decoration: none;
+  }
+  .big-phone small { display: block; color: var(--muted); font-weight: 600; }
+  .big-phone strong { font-family: "Fraunces", serif; font-size: 1.8rem; color: var(--teal-dark); }
+
+  form {
+    background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px;
+    display: grid; gap: 16px;
+  }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { display: grid; gap: 6px; font-weight: 700; font-size: .92rem; }
+  input, select, textarea {
+    font: inherit; font-weight: 400; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px;
+    background: var(--cream); color: var(--ink); width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  textarea { min-height: 96px; resize: vertical; }
+  .form-note { font-size: .85rem; color: var(--muted); margin: 0; text-align: center; }
+  .form-done {
+    display: none; background: var(--teal-soft); color: var(--teal-dark); border-radius: 12px; padding: 14px; font-weight: 600;
+  }
+  .form-done.show { display: block; }
+
+  footer { background: var(--teal-dark); color: #d7ebe8; padding: 40px 0; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: center; }
+  footer .logo { color: var(--white); }
+  footer a { color: var(--white); font-weight: 700; }
+
+  /* Mobile sticky call bar */
+  .call-bar { display: none; }
+
+  @media (max-width: 900px) {
+    .services { grid-template-columns: repeat(2, 1fr); }
+    .hero-grid, .about-grid, .estimate-grid { grid-template-columns: 1fr; }
+    .about-photo { max-width: 260px; margin: 0 auto; font-size: 4rem; }
+  }
+  @media (max-width: 600px) {
+    body { font-size: 16px; padding-bottom: 76px; }
+    .wrap { padding: 0 16px; }
+    .nav .btn-call { display: none; }
+    .logo { font-size: 1.15rem; }
+    .hero { padding: 40px 0; }
+    section { padding: 48px 0; }
+    .services, .row { grid-template-columns: 1fr; }
+    .hero-actions .btn { flex: 1 1 100%; }
+    form { padding: 20px; }
+    .call-bar {
+      display: flex; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--white);
+      border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(0,0,0,.06);
+    }
+    .call-bar .btn { flex: 1; padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Ava's Cleaning">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z" fill="#1f7a74"/>
+        <path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z" fill="#f4a261"/>
+      </svg>
+      Ava's Cleaning
+    </a>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a class="btn btn-primary btn-sm btn-call js-tel" href="#"><span data-i18n="callNow"></span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge">★ <span data-i18n="badge"></span></span>
+        <h1 data-i18n="heroTitle"></h1>
+        <p class="lead" data-i18n="heroLead"></p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#estimate" data-i18n="ctaEstimate"></a>
+          <a class="btn btn-ghost js-tel" href="#">📞 <span class="js-phone"></span></a>
+        </div>
+        <p class="hero-phone" data-i18n="heroSpanish"></p>
+      </div>
+      <div class="hero-card">
+        <h3 data-i18n="whyTitle"></h3>
+        <ul class="checks">
+          <li data-i18n="why1"></li>
+          <li data-i18n="why2"></li>
+          <li data-i18n="why3"></li>
+          <li data-i18n="why4"></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="servicesTitle"></h2>
+        <p data-i18n="servicesLead"></p>
+      </div>
+      <div class="services">
+        <div class="service"><div class="icon">🏠</div><h3 data-i18n="s1t"></h3><p data-i18n="s1d"></p></div>
+        <div class="service"><div class="icon">✨</div><h3 data-i18n="s2t"></h3><p data-i18n="s2d"></p></div>
+        <div class="service"><div class="icon">📦</div><h3 data-i18n="s3t"></h3><p data-i18n="s3d"></p></div>
+        <div class="service"><div class="icon">🏢</div><h3 data-i18n="s4t"></h3><p data-i18n="s4d"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <!-- Replace this block with <img src="ava.jpg" alt="Ava"> once you have a photo -->
+      <div class="about-photo" aria-hidden="true">A</div>
+      <div>
+        <h2 data-i18n="aboutTitle"></h2>
+        <p data-i18n="about1"></p>
+        <p data-i18n="about2"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estimate -->
+  <section id="estimate">
+    <div class="wrap estimate-grid">
+      <div class="estimate-info">
+        <h2 data-i18n="estTitle"></h2>
+        <p data-i18n="estLead"></p>
+        <a class="big-phone js-tel" href="#">
+          <small data-i18n="orCall"></small>
+          <strong class="js-phone"></strong>
+        </a>
+      </div>
+
+      <form id="estimate-form" novalidate>
+        <div class="row">
+          <label><span data-i18n="fName"></span><input name="name" autocomplete="name" required></label>
+          <label><span data-i18n="fPhone"></span><input name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <label><span data-i18n="fAddress"></span><input name="address" autocomplete="street-address" data-i18n-ph="fAddressPh" required></label>
+        <div class="row">
+          <label><span data-i18n="fService"></span>
+            <select name="service">
+              <option value="home" data-i18n="s1t"></option>
+              <option value="deep" data-i18n="s2t"></option>
+              <option value="move" data-i18n="s3t"></option>
+              <option value="office" data-i18n="s4t"></option>
+            </select>
+          </label>
+          <label><span data-i18n="fSize"></span><input name="size" data-i18n-ph="fSizePh"></label>
+        </div>
+        <label><span data-i18n="fNotes"></span><textarea name="notes" data-i18n-ph="fNotesPh"></textarea></label>
+        <button class="btn btn-primary" type="submit" data-i18n="fSubmit"></button>
+        <div class="form-done" role="status" data-i18n="fDone"></div>
+        <p class="form-note" data-i18n="fNote"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="logo">Ava's Cleaning</div>
+      <div data-i18n="area"></div>
+    </div>
+    <div>
+      <a class="js-tel" href="#"><span class="js-phone"></span></a><br>
+      <small>© <span id="year"></span> Ava's Cleaning</small>
+    </div>
+  </div>
+</footer>
+
+<div class="call-bar">
+  <a class="btn btn-primary js-tel" href="#">📞 <span data-i18n="callNow"></span></a>
+  <a class="btn btn-ghost" href="#estimate" data-i18n="ctaShort"></a>
+</div>
+
+<script>
+  /* ====== EDIT THESE ====== */
+  const CONFIG = {
+    phoneDisplay: "(555) 123-4567",   // how the number looks on the page
+    phoneDial:    "+15551234567",     // same number, digits only with +1
+    serviceArea: {
+      en: "Serving Sacramento and the surrounding area",
+      es: "Sirviendo a Sacramento y sus alrededores"
+    }
+  };
+  /* ======================== */
+
+  const T = {
+    en: {
+      callNow: "Call now",
+      badge: "Free estimates",
+      heroTitle: "A spotless home, without the stress.",
+      heroLead: "Reliable, detail-focused house cleaning in the Sacramento area from someone who treats your home like her own. Weekly, every two weeks, monthly, or one-time.",
+      ctaEstimate: "Get a free estimate",
+      ctaShort: "Free estimate",
+      heroSpanish: "Se habla español.",
+      whyTitle: "Why families choose Ava",
+      why1: "Free, no-pressure estimates",
+      why2: "Honest, trustworthy, and on time",
+      why3: "Careful with your home and belongings",
+      why4: "Flexible scheduling that fits your week",
+      servicesTitle: "Cleaning services",
+      servicesLead: "Every home is different. Tell us what you need and we'll make a plan that fits.",
+      s1t: "Regular home cleaning",
+      s1d: "Kitchens, bathrooms, floors, dusting — kept fresh on a schedule that works for you.",
+      s2t: "Deep cleaning",
+      s2d: "Top-to-bottom cleaning for baseboards, appliances, and all the spots that get missed.",
+      s3t: "Move-in / move-out",
+      s3d: "Leave your old place spotless or start fresh in your new one.",
+      s4t: "Offices & small spaces",
+      s4d: "Clean, welcoming workspaces for small offices and businesses.",
+      aboutTitle: "Hi, I'm Ava",
+      about1: "I've been cleaning homes in the Sacramento area since 2024, and I take pride in doing it right. My clients trust me with their homes because I'm careful, consistent, and I pay attention to the little things.",
+      about2: "When you call, you talk to me — not a call center. I'll come by, look at your space, and give you a fair price. The estimate is always free.",
+      estTitle: "Request your free estimate",
+      estLead: "Fill out the form and Ava will contact you to set up a time. No cost, no commitment.",
+      orCall: "Prefer to talk? Call or text",
+      fName: "Your name",
+      fPhone: "Phone number",
+      fAddress: "Address",
+      fAddressPh: "Street, city, ZIP",
+      fService: "Type of cleaning",
+      fSize: "Home size (optional)",
+      fSizePh: "e.g. 3 bed, 2 bath",
+      fNotes: "Anything else? (optional)",
+      fNotesPh: "Pets, preferred days, special requests…",
+      fSubmit: "Send my request",
+      fNote: "This opens a text message to Ava with your details filled in.",
+      fDone: "Thanks! Just press send in your messages app. If it didn't open, please call or text the number above.",
+      fMissing: "Please fill in your name, phone, and address.",
+      area: CONFIG.serviceArea.en
+    },
+    es: {
+      callNow: "Llamar ahora",
+      badge: "Estimados gratis",
+      heroTitle: "Un hogar impecable, sin estrés.",
+      heroLead: "Limpieza de casas confiable y detallada en el área de Sacramento, de alguien que cuida su hogar como si fuera suyo. Semanal, cada dos semanas, mensual o una sola vez.",
+      ctaEstimate: "Pida un estimado gratis",
+      ctaShort: "Estimado gratis",
+      heroSpanish: "We speak English, too.",
+      whyTitle: "Por qué las familias eligen a Ava",
+      why1: "Estimados gratis y sin compromiso",
+      why2: "Honesta, confiable y puntual",
+      why3: "Cuidadosa con su casa y sus cosas",
+      why4: "Horarios flexibles que se ajustan a su semana",
+      servicesTitle: "Servicios de limpieza",
+      servicesLead: "Cada hogar es diferente. Díganos qué necesita y haremos un plan a su medida.",
+      s1t: "Limpieza regular de casa",
+      s1d: "Cocinas, baños, pisos y polvo — todo limpio con el horario que usted prefiera.",
+      s2t: "Limpieza profunda",
+      s2d: "Limpieza completa de zócalos, electrodomésticos y todos los rincones olvidados.",
+      s3t: "Mudanzas (entrada / salida)",
+      s3d: "Deje su casa anterior impecable o empiece de nuevo en la nueva.",
+      s4t: "Oficinas y espacios pequeños",
+      s4d: "Espacios de trabajo limpios y agradables para oficinas y pequeños negocios.",
+      aboutTitle: "Hola, soy Ava",
+      about1: "Limpio casas en el área de Sacramento desde 2024 y me enorgullece hacerlo bien. Mis clientes me confían sus hogares porque soy cuidadosa, constante y presto atención a los detalles.",
+      about2: "Cuando llama, habla conmigo — no con una oficina. Visito su casa, veo el espacio y le doy un precio justo. El estimado siempre es gratis.",
+      estTitle: "Pida su estimado gratis",
+      estLead: "Llene el formulario y Ava se comunicará con usted para acordar una cita. Sin costo y sin compromiso.",
+      orCall: "¿Prefiere hablar? Llame o mande un texto",
+      fName: "Su nombre",
+      fPhone: "Teléfono",
+      fAddress: "Dirección",
+      fAddressPh: "Calle, ciudad, código postal",
+      fService: "Tipo de limpieza",
+      fSize: "Tamaño de la casa (opcional)",
+      fSizePh: "ej. 3 recámaras, 2 baños",
+      fNotes: "¿Algo más? (opcional)",
+      fNotesPh: "Mascotas, días preferidos, pedidos especiales…",
+      fSubmit: "Enviar mi solicitud",
+      fNote: "Esto abre un mensaje de texto para Ava con sus datos ya escritos.",
+      fDone: "¡Gracias! Solo presione enviar en su app de mensajes. Si no se abrió, llame o mande un texto al número de arriba.",
+      fMissing: "Por favor escriba su nombre, teléfono y dirección.",
+      area: CONFIG.serviceArea.es
+    }
+  };
+
+  // Ava reads the incoming text in Spanish, no matter which language the customer used.
+  const SERVICE_ES = { home: "Limpieza regular", deep: "Limpieza profunda", move: "Mudanza", office: "Oficina" };
+
+  let lang = "en";
+
+  function setLang(l) {
+    lang = T[l] ? l : "en";
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = T[lang][el.dataset.i18n]; });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = T[lang][el.dataset.i18nPh]; });
+    document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+  }
+
+  // Phone everywhere
+  document.querySelectorAll(".js-phone").forEach(el => el.textContent = CONFIG.phoneDisplay);
+  document.querySelectorAll(".js-tel").forEach(el => el.href = "tel:" + CONFIG.phoneDial);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+  // Pick language: ?lang=es in the link > saved choice > browser language
+  let initial = new URLSearchParams(location.search).get("lang");
+  if (!initial) { try { initial = localStorage.getItem("lang"); } catch (e) {} }
+  if (!initial) initial = (navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en";
+  setLang(initial);
+
+  // Estimate form -> prefilled text message to Ava
+  document.getElementById("estimate-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const f = e.target, d = Object.fromEntries(new FormData(f));
+    const done = f.querySelector(".form-done");
+    if (!d.name.trim() || !d.phone.trim() || !d.address.trim()) {
+      done.textContent = T[lang].fMissing; done.classList.add("show"); return;
+    }
+    const msg = [
+      "Nuevo estimado - sitio web",
+      "Nombre: " + d.name,
+      "Teléfono: " + d.phone,
+      "Dirección: " + d.address,
+      "Servicio: " + SERVICE_ES[d.service],
+      d.size ? "Tamaño: " + d.size : "",
+      d.notes ? "Notas: " + d.notes : "",
+      "Idioma del cliente: " + (lang === "es" ? "Español" : "Inglés")
+    ].filter(Boolean).join("\n");
+    done.textContent = T[lang].fDone; done.classList.add("show");
+    location.href = "sms:" + CONFIG.phoneDial + "?&body=" + encodeURIComponent(msg);
+  });
+</script>
+</body>
+</html>
