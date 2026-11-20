@@ -117,6 +117,32 @@
   .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .gallery .photo { aspect-ratio: 1; }
 
+  /* Reviews: auto-scrolling banner */
+  .reviews { padding-bottom: 72px; }
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  }
+  .track { display: flex; gap: 16px; width: max-content; padding: 4px 0; animation: marquee 45s linear infinite; }
+  .marquee:hover .track, .marquee:focus-within .track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(calc(-50% - 8px)); } }
+  .review {
+    flex: none; width: 310px; background: var(--white); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .review .stars { color: var(--rose); font-size: 1.15rem; letter-spacing: 3px; }
+  .review blockquote { margin: 0; color: var(--ink); flex: 1; }
+  .review cite { font-style: normal; font-weight: 700; color: var(--rose-dark); font-size: .95rem; }
+  .review.empty blockquote, .review.empty cite { color: var(--muted); font-style: italic; font-weight: 500; }
+  .review.empty { border: 2px dashed #E7A9BB; }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+    .track { animation: none; padding: 4px 16px; }
+    .track [aria-hidden="true"] { display: none; }
+  }
+  @media (max-width: 600px) { .review { width: 260px; } .track { animation-duration: 35s; } }
+
   .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 48px; align-items: center; }
   .about .photo { aspect-ratio: 1; max-width: 380px; width: 100%; border-radius: 50%; }
   .about h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
@@ -271,6 +297,15 @@
     </div>
   </section>
 
+  <!-- REVIEWS: edit the list in CONFIG.reviews in the script below -->
+  <section class="reviews" id="reviews">
+    <div class="wrap section-head">
+      <h2 data-i18n="reviewsTitle"></h2>
+      <p data-i18n="reviewsLead"></p>
+    </div>
+    <div class="marquee"><div class="track" id="review-track"></div></div>
+  </section>
+
   <section class="about" id="about">
     <div class="wrap about-grid">
       <!-- PHOTO: assets/photos/eva.jpg -->
@@ -363,7 +398,19 @@
     phoneDisplay: "(916) 254-2121",
     phoneDial:    "+19162542121",
     email: "",          // TODO: EMAIL PLACEHOLDER — put Eva's email here, e.g. "eva@example.com"
-    galleryCount: 6     // number of gallery photos: assets/photos/gallery-1.jpg ... gallery-6.jpg
+    galleryCount: 6,    // number of gallery photos: assets/photos/gallery-1.jpg ... gallery-6.jpg
+
+    // REVIEWS — fill in real customer reviews. Empty ones show as "review coming soon" slots.
+    // Example: { stars: 5, text: "Great job and a fair price!", name: "Maria G., Elk Grove" },
+    // Add or remove lines to change how many cards scroll by.
+    reviews: [
+      { stars: 5, text: "", name: "" },
+      { stars: 5, text: "", name: "" },
+      { stars: 5, text: "", name: "" },
+      { stars: 5, text: "", name: "" },
+      { stars: 5, text: "", name: "" },
+      { stars: 5, text: "", name: "" }
+    ]
   };
   /* ======================== */
 
@@ -392,6 +439,10 @@
       s4d: "Clean, welcoming workspaces for small offices and businesses.",
       galleryTitle: "Our work",
       galleryLead: "A few homes we've recently cleaned.",
+      reviewsTitle: "What customers say",
+      reviewsLead: "Honest work at a fair price.",
+      reviewEmpty: "Customer review coming soon",
+      reviewEmptyName: "Customer name",
       aboutTitle: "Hi, I'm Eva",
       about1: "I've been cleaning homes in the Sacramento area since 2024, and I take pride in doing it right. My clients trust me with their homes because I'm careful, consistent, and I pay attention to the little things.",
       about2: "When you call, you talk to me — not a call center. I'll come by, look at your space, and give you a fair price. The estimate is always free.",
@@ -441,6 +492,10 @@
       s4d: "Espacios de trabajo limpios y agradables para oficinas y pequeños negocios.",
       galleryTitle: "Nuestro trabajo",
       galleryLead: "Algunas casas que hemos limpiado recientemente.",
+      reviewsTitle: "Lo que dicen nuestros clientes",
+      reviewsLead: "Trabajo honesto a un precio justo.",
+      reviewEmpty: "Reseña de cliente próximamente",
+      reviewEmptyName: "Nombre del cliente",
       aboutTitle: "Hola, soy Eva",
       about1: "Limpio casas en el área de Sacramento desde 2024 y me enorgullece hacerlo bien. Mis clientes me confían sus hogares porque soy cuidadosa, constante y presto atención a los detalles.",
       about2: "Cuando llama, habla conmigo — no con una oficina. Visito su casa, veo el espacio y le doy un precio justo. El estimado siempre es gratis.",
@@ -500,6 +555,29 @@
     });
   }
 
+  function renderReviews() {
+    const track = document.getElementById("review-track");
+    track.innerHTML = "";
+    const make = (r, hidden) => {
+      const card = document.createElement("figure");
+      card.className = "review" + (r.text ? "" : " empty");
+      if (hidden) card.setAttribute("aria-hidden", "true");
+      const stars = document.createElement("div");
+      const n = Math.max(1, Math.min(5, r.stars || 5));
+      stars.className = "stars"; stars.textContent = "★".repeat(n) + "☆".repeat(5 - n);
+      stars.setAttribute("aria-label", n + " / 5");
+      const q = document.createElement("blockquote");
+      q.textContent = r.text ? "“" + r.text + "”" : T[lang].reviewEmpty;
+      const c = document.createElement("cite");
+      c.textContent = "— " + (r.name || T[lang].reviewEmptyName);
+      card.append(stars, q, c);
+      return card;
+    };
+    // Two copies back to back so the banner loops seamlessly.
+    CONFIG.reviews.forEach(r => track.appendChild(make(r, false)));
+    CONFIG.reviews.forEach(r => track.appendChild(make(r, true)));
+  }
+
   function setLang(l) {
     lang = T[l] ? l : "en";
     document.documentElement.lang = lang;
@@ -508,6 +586,7 @@
     document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = T[lang][el.dataset.i18nPh]; });
     document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     renderEmail();
+    renderReviews();
     try { localStorage.setItem("lang", lang); } catch (e) {}
   }
 
