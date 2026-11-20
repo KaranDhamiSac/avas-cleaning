@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarjeta de presentación</title>
+<style>
+  @page { size: 3.5in 2in; margin: 0; }
+  body { margin: 0; background: #f3eef0; font-family: system-ui, sans-serif; color: #2E2E33; }
+  .screen { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+  .screen h1 { font-size: 1.3rem; margin: 0 0 6px; }
+  .screen p, .screen li { color: #6E6670; font-size: .95rem; }
+  .card {
+    width: 3.5in; height: 2in; margin: 20px auto; background: #fff;
+    box-shadow: 0 10px 30px rgba(155, 44, 82, .18); border-radius: 6px; overflow: hidden;
+  }
+  .card img { width: 100%; height: 100%; display: block; }
+  @media print {
+    body { background: #fff; }
+    .screen { display: none; }
+    .card { margin: 0; box-shadow: none; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="screen">
+    <h1>Eva's Cleaning — tarjeta (3.5 × 2 in)</h1>
+    <p>Shown at actual size. To print at home: Print → set scale to 100% / "Actual size", margins none.</p>
+    <ul>
+      <li><b>For a print shop</b> (Vistaprint, Staples, etc.): upload <code>tarjeta-con-sangrado-3.75x2.25.svg</code>. It has the 0.125 in bleed they ask for. Everything important stays inside the 3.25 × 1.75 in safe area.</li>
+      <li><b>Trimmed version</b> (exactly 3.5 × 2 in, no bleed): <code>tarjeta-3.5x2.svg</code>.</li>
+      <li>All text is converted to outlines, so it prints the same everywhere without fonts installed.</li>
+    </ul>
+  </div>
+  <div class="card"><img src="tarjeta-3.5x2.svg" alt="Tarjeta de Eva's Cleaning: Estimados gratis, 916 254 2121"></div>
+</body>
+</html>
